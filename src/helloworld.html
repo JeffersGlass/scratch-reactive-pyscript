@@ -1,0 +1,83 @@
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="../build/my_alpine.js"></script>
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+    <style>
+        .styled-table {
+            border-collapse: collapse;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+    </style>
+</head>
+<body>
+    <py-config>
+        packages = ['watchpoints']
+    </py-config>
+    <div class="grid grid-cols-2">
+        <div>
+            <py-repl auto-generate="true"></py-repl>
+        </div>
+        <div x-data>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Object Name</th>
+                        <th>Object Value</th>
+                        <th>Object ID</th>
+                        <th>Typeof</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="obj in $store.pythonGlobals">
+                        <tr>
+                            <td x-text="obj[0]"></td>
+                            <td x-text="obj[1]"></td>
+                            <td x-text="pyID(obj[1])"></td>
+                            <td x-text="typeof obj[1]"></td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <p class = "bg-yellow-100" x-text="$store.pythonGlobals"></p>
+        </div>
+    </div>
+    <script>
+        function createObject(object, variableName){
+            //Bind a variable whose name is the string variableName
+            // to the object called 'object'
+            let execString = variableName + " = object"
+            //console.log("Running `" + execString + "`");
+            eval(execString)
+        }
+
+        var pyscriptReady = new Event('pyscriptReady')
+    </script>
+    <py-script src="prepglobals.py"></py-script>
+</body>
