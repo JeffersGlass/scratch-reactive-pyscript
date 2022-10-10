@@ -25,7 +25,9 @@ def update_globals(*args, **kwargs):
         global updatesCalled
         updatesCalled += 1
 
-        current_globals = [obj for obj in globals().items() if obj[0] not in INITIAL_GLOBALS]
+        current_globals = [(name, create_proxy(var)) for name, var in globals().items() 
+            if name not in INITIAL_GLOBALS
+            and name not in HIDDEN_GLOBAL_NAMES]
         global previous_globals
 
         if any(current != previous for current, previous in zip(sorted(current_globals), sorted(previous_globals))):
@@ -39,7 +41,7 @@ def update_globals(*args, **kwargs):
         sys.settrace(prev_sys_trace)
         return update_globals
 
-
+HIDDEN_GLOBAL_NAMES = ('INITIAL_GLOBALS',)
 INITIAL_GLOBALS = set(globals())
 updatesCalled = 0 
 #watch(x, callback=update_globals)
@@ -51,3 +53,4 @@ sys.settrace(update_globals)
 
 MY_FIRST_VARIABLE = "Hello mama"
 MY_NEW_VARIABLE = 2394723874329
+x = 0
