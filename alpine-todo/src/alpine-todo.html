@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../build/todo.js"></script>
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="m-6">
+        <input type="text" name="Todos" id="todos-input" class="border-2 border-gray-600 bg-gray-50">
+        <button id="btn-add" py-click="add_todo()" class="border-2 border-blue-400 bg-blue-100 px-2 rounded-md">Add Todo</button>
+        <div x-data class="my-4">
+            <template x-for="item in $store.todos">
+                <div>
+                    <!-- Experimentation is happening here -->
+                    <!-- <input type="checkbox" class="mr-2" x-on:change="item.toggle_status()"> -->
+                    <input type="checkbox" class="mr-2" x-on:change="item.set_status(checked)">
+                    <div x-text="item.task" class="inline" :class="item.complete ? 'line-through': ''"></div>
+                </div>
+            </template>
+        </div>
+        <button id="all-done" py-click="complete_all()" class="border-2 border-red-400 bg-red-100 px-2 rounded-2">Mark All Complete</button>
+    </div>
+
+    <script>
+        function createObject(object, variableName){
+            //Bind a variable whose name is the string variableName
+            // to the object called 'object'
+            let execString = variableName + " = object"
+            //console.log("Running `" + execString + "`");
+            eval(execString)
+        }
+
+        var pyscriptReady = new Event('pyscriptReady')
+    </script>
+    <py-script src="todo.py"></py-script>
+</body>
+</html>
