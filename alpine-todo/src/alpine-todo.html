@@ -8,6 +8,7 @@
     <title>Document</title>
     <script src="../build/todo.js"></script>
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -25,6 +26,7 @@
             </template>
         </div>
         <button id="all-done" py-click="complete_all()" class="border-2 border-red-400 bg-red-100 px-2 rounded-2">Mark All Complete</button>
+        <py-repl auto-generate="true"></py-repl>
     </div>
 
     <script>
