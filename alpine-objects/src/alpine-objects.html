@@ -5,13 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="../build/alpineobjects.js"></script>
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <script defer src="pyscript.js"></script>
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <p>HTML is here</p>
     <py-script src="./alpineobjects.py"></py-script>
+    <div class="grid grid-cols-2">
+        <div class="bg-green-100 py-12">
+            <py-repl auto-generate="true">
+                x = 2
+                from js import Alpine
+                Alpine.store('pythonGlobals').refresh()</py-repl>
+            <button class="border-2 border-gray-600 p-2" id="btn-store">Store Globals</button>
+        </div>
+        <div class="bg-yellow-100" x-data="$store.pythonGlobals">
+            <!-- <div x-text="$store.pythonGlobals"></div> -->
+            <!-- <div class="bg-red-200" x-text="typeof $store.pythonGlobals"></div> -->
+            <ul>
+                <template x-for="item in Array.from($store.pythonGlobals.globals[Symbol.iterator]())">
+                    <li class="bg-blue-100 list-disc">
+                        <span x-text="item"></span> : <span x-text="$store.pythonGlobals.globals.get('id')($store.pythonGlobals.globals.get(item))"></span>
+                    </li>
+                </template>
+            </ul>
+            <p x-text="$store.pythonGlobals.id" class="bg-yellow-400"></p>
+        </div>
+    </div>
+    <script src="../build/alpineobjects.js"></script>
+<pre>
+Try this:
+x = 2
+from js import Alpine
+Alpine.store('pythonGlobals').refresh()
+</pre>
 </body>
 </html>
