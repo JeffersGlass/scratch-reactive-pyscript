@@ -19,7 +19,7 @@
                 <div>
                     <!-- Experimentation is happening here -->
                     <!-- <input type="checkbox" class="mr-2" x-on:change="item.toggle_status()"> -->
-                    <input type="checkbox" class="mr-2" x-on:change="item.set_status(checked)">
+                    <input type="checkbox" class="mr-2" x-on:change="item.set_status(this.checked)">
                     <div x-text="item.task" class="inline" :class="item.complete ? 'line-through': ''"></div>
                 </div>
             </template>
