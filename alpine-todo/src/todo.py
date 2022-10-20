@@ -1,3 +1,4 @@
+import asyncio
 from dataclasses import dataclass
 import sys
 
@@ -57,3 +58,10 @@ sys._getframe().f_trace = update_list
 sys.settrace(update_list)
 
 document.dispatchEvent(pyscriptReady);
+
+async def toggle_first():
+    while True:
+        await asyncio.sleep(1)
+        if len(todo_list): todo_list[0].toggle_status()
+
+#PyScript.loop.run_until_complete(toggle_first())
