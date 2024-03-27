@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="mini-coi.js" scope="./"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script defer src="pyscript.js"></script>
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+    <script type="module" src="https://pyscript.net/releases/2024.3.2/core.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.3.2/core.css">
     <script src="https://cdn.tailwindcss.com"></script>
+     
 </head>
 <body>
+    
     <p>HTML is here</p>
-    <py-script src="./alpineobjects.py"></py-script>
+    
+    <py-config>
+        [js_modules.main]
+        "https://cdn.jsdelivr.net/npm/alpinejs@3.10.4/+esm" = "Alpine"
+    </py-config>
     <div class="grid grid-cols-2">
         <div class="bg-green-100 py-12">
-            <py-repl auto-generate="true">
-                x = 2
-                from js import Alpine
-                Alpine.store('pythonGlobals').refresh()</py-repl>
+            <script type="py-editor" env="one" setup>
+                from js import console, Event, document
+                #from pyscript import document
+                from pyscript.js_modules import Alpine
+                import sys
+                console.log("PyScript loaded")
+
+                def setRefresh():
+                    console.log(dir(sys._getframe()))
+                    sys._getframe().f_trace = Alpine.store('pythonGlobals').refresh
+                    sys.settrace(Alpine.store('pythonGlobals').refresh)
+                    console.warn("System Traces set in python")
+
+                console.log("Sending pyscriptReady event")
+                pyscriptReady = Event.new('pyscriptReady')
+                document.dispatchEvent(pyscriptReady);
+            </script>
+            <script type="py-editor" env="one">
+                import pyscript
+            </script>
             <button class="border-2 border-gray-600 p-2" id="btn-store">Store Globals</button>
         </div>
         <div class="bg-yellow-100" x-data="$store.pythonGlobals">
@@ -32,7 +55,7 @@
             </ul>
         </div>
     </div>
-    <script src="../build/alpineobjects.js"></script>
+    
 <pre>
 Try this:
 x = 2
